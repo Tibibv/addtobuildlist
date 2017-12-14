@@ -8,4 +8,7 @@ setup(name='addtobuildlist',
       author_email='kron_bv@yahoo.com',
       license='MIT',
       packages=['addtobuildlist'],
+      install_requires=[
+          'printandlog',
+      ],
       zip_safe=False)

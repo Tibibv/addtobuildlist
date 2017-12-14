@@ -2,29 +2,48 @@ import sys
 import os
 import hglib
 import subprocess
+import printandlog
 
 def main(argv):
+  printandlog.init("C:\Log\AddToBuildList.log")
   repoPath = argv[0]
-  repo = hglib.open(repoPath)
+  try:
+    repo = hglib.open(repoPath)
+  except:
+    printandlog.printAndLog("Not a valid Mercurial repo",printandlog.MessageType.errorMessage)
+  
   statusList = repo.status()
+  printandlog.printAndLog("Following files were modified:", list = statusList)
+
   linkSet = createLinkList(statusList)
   for link in linkSet:
     modulePath = os.path.dirname(link)
     subsystem = os.path.basename(link)
     linkSourceFolder = os.path.join(b'w:\\TestLab\\Cada-NT\\',modulePath).decode()
-    if not os.path.exists(linkSourceFolder):
+    if not os.path.isdir(linkSourceFolder):
+      printandlog.printAndLog("Creating folder: " + linkSourceFolder)
       os.makedirs(linkSourceFolder)
-    assert(os.path.exists(linkSourceFolder))
+      printandlog.printAndLog("Folder was created.\n")
+
+    assert(os.path.isdir(linkSourceFolder))
     
     linkSource = os.path.join(linkSourceFolder, subsystem.decode())
 
     linkTarget = os.path.join(repoPath,'Cada-NT', modulePath.decode(), subsystem.decode())
     assert(os.path.exists(linkTarget))
-    #win32file.CreateSymbolicLink(linkSource,linkTarget, 0)
-    localSubsystemsFile = open("W:\\local_subsystems.txt", 'a')
+    localSubsystemsFileName = "W:\\local_subsystems.txt"
+    try:
+      localSubsystemsFile = open(localSubsystemsFileName, 'a')
+    except:
+      printandlog.printAndLog("File: " + localSubsystemsFileName +  " does not exists", printandlog.MessageType.errorMessage)
+
     if not os.path.exists(linkSource):
+      printandlog.printAndLog("Creating link in " + linkSource + " for " + linkTarget)
       command = "mklink /D " + linkSource + " " + linkTarget
       subprocess.call(command, shell = True)
+      printandlog.printAndLog("Link was created.\n")
+      
+      printandlog.printAndLog("Subsystem: " + link.decode() + " was added to localSubsystems file")
       localSubsystemsFile.write(link.decode() + "\n")
     localSubsystemsFile.close()
   print(linkSet)
