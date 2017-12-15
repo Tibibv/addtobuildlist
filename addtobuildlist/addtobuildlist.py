@@ -11,8 +11,16 @@ def main(argv):
     repo = hglib.open(repoPath)
   except:
     printandlog.printAndLog("Not a valid Mercurial repo",printandlog.MessageType.errorMessage)
-  
-  statusList = repo.status()
+  numberOfArguments = len(argv)
+  if (numberOfArguments > 1):
+    revisionList=[]
+    for argvIndex in range (1,numberOfArguments):
+      revisionList.append(argv[argvIndex])
+    statusList = repo.status(revisionList)
+  else:
+    statusList = repo.status()
+
+
   printandlog.printAndLog("Following files were modified:", list = statusList)
 
   linkSet = createLinkList(statusList)
@@ -46,7 +54,6 @@ def main(argv):
       printandlog.printAndLog("Subsystem: " + link.decode() + " was added to localSubsystems file")
       localSubsystemsFile.write(link.decode() + "\n")
     localSubsystemsFile.close()
-  print(linkSet)
 
 def createLinkList(statusList):
   linkSet = set()
