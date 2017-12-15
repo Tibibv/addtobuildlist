@@ -4,7 +4,7 @@ import hglib
 import subprocess
 import printandlog
 
-def main(argv):
+def addTobuildList(argv):
   printandlog.init("C:\Log\AddToBuildList.log")
   repoPath = argv[0]
   try:
@@ -69,4 +69,4 @@ def createLink(filePath):
   return relativePath
 
 if __name__ == '__main__':
-    main(sys.argv[1:])
+    addTobuildList(sys.argv[1:])

@@ -12,7 +12,7 @@
     <Name>addtobuildlist</Name>
     <RootNamespace>addtobuildlist</RootNamespace>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>c:\Hg\TestLabCombined_Weighting\ 486664 486568</CommandLineArguments>
+    <CommandLineArguments>c:\Hg\TestLabCombined_Weighting2\ 486664 486568</CommandLineArguments>
     <EnableNativeCodeDebugging>True</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
