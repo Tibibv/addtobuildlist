@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='addtobuildlist',
-      version='0.2',
+      version='0.3',
       description='Print on output and on a unique log file ',
       url='https://github.com/Tibibv/addtobuildlist',
       author='Kron',
